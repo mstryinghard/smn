@@ -1,12 +1,12 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once 'helpers/base.smu.php';
+require_once 'helpers/Base.php';
 
 /**
- * Social Media Updater module control panel class
+ * Social media notifier module control panel class
  * @author glen
  */
-class Smu_mcp extends SMU_Base {
+class Smn_mcp extends Base {
 
     /**
      * Consttructor
@@ -16,7 +16,7 @@ class Smu_mcp extends SMU_Base {
     public function __construct()
     {
         parent::saveModUrls(array(
-            'redirect_url' => ee()->config->item('site_url').'index.php?ACT='.ee()->cp->fetch_action_id('Smu', 'auth'),
+            'redirect_url' => ee()->config->item('site_url').'index.php?ACT='.ee()->cp->fetch_action_id('Smn', 'auth'),
             'module_cp_url' => ee()->config->item('site_url').$this->getSettingsPageURL()
         ));
     }
@@ -32,7 +32,7 @@ class Smu_mcp extends SMU_Base {
         $matches = array();
         $result = '';
         preg_match_all("/(admin.php)/", BASE, $matches);
-        return (!empty($matches) && count($matches[0])) ? ee('CP/URL', 'addons/settings/smu') : SYSDIR.'/'.ee('CP/URL', 'addons/settings/smu');
+        return (!empty($matches) && count($matches[0])) ? ee('CP/URL', 'addons/settings/smn') : SYSDIR.'/'.ee('CP/URL', 'addons/settings/smn');
     }
 
   /**
@@ -44,14 +44,14 @@ class Smu_mcp extends SMU_Base {
         ee()->load->helper('form');
         ee()->load->library('table');
 
-        ee()->view->cp_page_title = lang('smu_module_page_title');
+        ee()->view->cp_page_title = lang('smn_module_page_title');
 
         $access_token = ee()->input->get('access_token');
         $platform = ee()->input->get('platform');
 
         $vars = array();
 
-        $results = ee()->db->where('class', 'Smu_ext')->limit(1)->get('extensions')->first_row();
+        $results = ee()->db->where('class', 'Smn_ext')->limit(1)->get('extensions')->first_row();
 
         $current_settings = (!empty($results)) ? (object)unserialize($results->settings) : array();
 
@@ -139,7 +139,7 @@ class Smu_mcp extends SMU_Base {
 
         //$vars['redirect_url'] = $this->redirect_url;
         $vars['redirect_url'] = parent::getModUrls()->redirect_url;
-        //$vars['action_url'] = 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=smu'.AMP.'method=save';
+        //$vars['action_url'] = 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=smn'.AMP.'method=save';
         $vars['action_url'] = parent::getModUrls()->module_cp_url.'/save';
 
         return ee()->load->view('index', $vars, TRUE);
@@ -178,7 +178,7 @@ class Smu_mcp extends SMU_Base {
       ee()->functions->redirect(parent::getModUrls()->module_cp_url);
     } else { // Demacia!!! Settings has been saved.
 
-      ee()->db->where('class', 'Smu_ext');
+      ee()->db->where('class', 'Smn_ext');
       ee()->db->update('extensions', array('settings' => serialize($_POST)));
       ee()->session->set_flashdata(
           'message_success',
@@ -204,5 +204,5 @@ class Smu_mcp extends SMU_Base {
   }
 }
 
-/* End of file mcp.smu.php */
-/* Location: ./system/expressionengine/third_party/smu/mcp.smu.php */
+/* End of file mcp.smn.php */
+/* Location: ./system/expressionengine/third_party/smn/mcp.smn.php */

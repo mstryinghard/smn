@@ -7,7 +7,7 @@ require_once 'Cttp.php';
  *
  * @author glen
  */
-class SMU_Base
+class Base
 {
 
     /**

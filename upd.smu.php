@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Smu_upd {
+class Smn_upd {
 
   var $version = '1.0';
 
@@ -12,7 +12,7 @@ class Smu_upd {
     ee()->load->dbforge();
 
     $data = array(
-      'module_name' => 'smu',
+      'module_name' => 'smn',
       'module_version' => $this->version,
       'has_cp_backend' => 'y',
       'has_publish_fields' => 'n'
@@ -21,14 +21,14 @@ class Smu_upd {
     ee()->db->insert('modules', $data);
 
     $data = array(
-      'class'     => 'smu' ,
+      'class'     => 'smn' ,
       'method'    => 'auth'
     );
 
     ee()->db->insert('actions', $data);
 
     $fields = array(
-      'smu_id'   => array('type' => 'int', 'constraint' => '10', 'unsigned' => TRUE, 'auto_increment' => TRUE),
+      'smn_id'   => array('type' => 'int', 'constraint' => '10', 'unsigned' => TRUE, 'auto_increment' => TRUE),
       'entry_id' => array('type' => 'varchar', 'constraint' => '250'),
       'details' => array('type' => 'text', 'null' => TRUE),
       'platform' => array('type' => 'varchar', 'constraint' => '250'),
@@ -36,8 +36,8 @@ class Smu_upd {
     );
 
     ee()->dbforge->add_field($fields);
-    ee()->dbforge->add_key('smu_id', TRUE);
-    ee()->dbforge->create_table('smu');
+    ee()->dbforge->add_key('smn_id', TRUE);
+    ee()->dbforge->create_table('smn');
 
     unset($fields);
 
@@ -49,7 +49,7 @@ class Smu_upd {
 
     ee()->dbforge->add_field($fields);
     ee()->dbforge->add_key('id', TRUE);
-    ee()->dbforge->create_table('smu_urls');
+    ee()->dbforge->create_table('smn_urls');
 
     return TRUE;
   }
@@ -62,19 +62,19 @@ class Smu_upd {
     ee()->load->dbforge();
 
     ee()->db->select('module_id');
-    $query = ee()->db->get_where('modules', array('module_name' => 'smu'));
+    $query = ee()->db->get_where('modules', array('module_name' => 'smn'));
 
     ee()->db->where('module_id', $query->row('module_id'));
     ee()->db->delete('module_member_groups');
 
-    ee()->db->where('module_name', 'smu');
+    ee()->db->where('module_name', 'smn');
     ee()->db->delete('modules');
 
-    ee()->db->where('class', 'smu');
+    ee()->db->where('class', 'smn');
     ee()->db->delete('actions');
 
-    ee()->dbforge->drop_table('smu');
-    ee()->dbforge->drop_table('smu_urls');
+    ee()->dbforge->drop_table('smn');
+    ee()->dbforge->drop_table('smn_urls');
 
     return TRUE;
   }
@@ -88,5 +88,5 @@ class Smu_upd {
   }
 }
 
-/* End of file upd.smu.php */
-/* Location: ./system/expressionengine/third_party/smu/upd.smu.php */
+/* End of file upd.smn.php */
+/* Location: ./system/expressionengine/third_party/smn/upd.smn.php */
